@@ -1,0 +1,60 @@
+{% extends 'front/reg_log_base.html' %}
+{% block head %}
+    <script src="{{ url_for('static', filename="front/js/bootstrap-show-password.js") }}"></script>
+{% endblock %}
+{% block title %}重置密码{% endblock %}
+<h2>{% block h2_block %}重置密码{% endblock %}</h2>
+
+{% block form_box %}
+    <div class="form-group">
+        <input id="password" class="form-control" type="password" name="newpwd" placeholder="请设置新密码">
+    </div>
+
+    <div class="form-group">
+        <input id="login" type="submit" class="form-control btn btn-warning" value="提交">
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('front.login') }}" style="float: right">返回登录</a>
+    </div>
+    <script>
+        $('#login').click(function (e) {
+            e.preventDefault();
+
+            zlajax.post({
+                url: window.location.href,
+                data: {
+                    newpwd: $('input[name="newpwd"]').val(),
+                },
+                success: function (data) {
+                    if (data['code'] === 200) {
+                        xtalert.alertSuccessToast('新密码设置成功');
+                        setTimeout(function () {
+                            window.location = '/'
+                        }, 700)
+                    } else {
+                        xtalert.alertInfoToast(data['message'])
+                    }
+                }
+            })
+        })
+    </script>
+
+
+    <script>
+        $(function () {
+            $('#password').password()
+                .password('focus')
+                .on('show.bs.password', function (e) {
+                    $('#eventLog').text('On show event');
+                    $('#methods').prop('checked', true);
+                }).on('hide.bs.password', function (e) {
+                $('#eventLog').text('On hide event');
+                $('#methods').prop('checked', false);
+            });
+            $('#methods').click(function () {
+                $('#password').password('toggle');
+            });
+        });
+    </script>
+{% endblock %}

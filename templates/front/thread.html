@@ -1,0 +1,230 @@
+{% extends 'front/index_base.html' %}
+{% from 'common/_macros.html' import static %}
+{% block title %}{{ thread.title }} - {% endblock %}
+
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename="ueditor/ueditor.config.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="ueditor/ueditor.all.js") }}"></script>
+    <link type=text/css rel="stylesheet" href="{{ url_for('static', filename="front/css/thread.css") }}">
+    <script src="{{ static('front/js/thread.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% if g.front_user %}
+        <div id="login_flag" is_login="1" thread_id="{{ thread.id }}" author_id="{{ g.front_user.id }}"
+             hidden="hidden"></div>
+    {% endif %}
+    <div class="lg-container col-sm-7 col-sm-offset-1">
+        <div class="header" thread_id="{{ thread.id }}">
+            <h3>{{ thread.title }}</h3>
+            <p class="header-info">
+            <span class="label label-info"><span class="glyphicon glyphicon-user" style="margin-right: 2px"
+                                                 aria-hidden="true"></span>{{ thread.author.username }}</span>
+                <span class="label label-warning"><span class="glyphicon glyphicon-time" style="margin-right: 2px"
+                                                        aria-hidden="true"></span>{{ thread.create_time }}</span>
+                <span class="label label-danger"><span class="glyphicon glyphicon-thumbs-up" style="margin-right: 2px"
+                                                       aria-hidden="true"></span>{{ thread.likes | length }}</span>
+                <span class="label label-success"><span class="glyphicon glyphicon-comment" style="margin-right: 2px"
+                                                        aria-hidden="true"></span>{{ thread.comments | length }}</span>
+                <span class="label label-default"><span class="glyphicon glyphicon-tag" style="margin-right: 2px"
+                                                        aria-hidden="true"></span>{{ thread.board.name }}</span>
+                <span class="label label-warning"><span class="glyphicon glyphicon-eye-open" style="margin-right: 2px"
+                                                        aria-hidden="true"></span>{{ thread.browse_num }}</span>
+                <span style="float: right;font-size: 13px">{{ '已编辑' if thread.is_edited  else '' }}</span>
+                <span style="float: right;font-size: 13px;cursor: pointer"
+                      class="glyphicon glyphicon-paperclip copyCurrentUrl">复制链接</span>
+            </p>
+        </div>
+        <div class="body">
+            {{ thread.content | safe }}
+        </div>
+        <hr style="margin: 0">
+
+        <div class="like" style="overflow: hidden;">
+            <p style="color: #c9c9c9">本文是{{ thread.author.username }}的原创文章，如需转载请注明出处。</p>
+            {% if g.front_user == thread.author %}
+                <img title="删除" id="delete-thread" class="pull-right del-edit"
+                     src="{{ url_for('static', filename='front/images/delete.png') }}"
+                     alt="">
+                <img title="编辑" id="edit-thread" tid="{{ thread.id }}" class="pull-right del-edit"
+                     src="{{ url_for('static', filename='front/images/edit.png') }}"
+                     alt="">
+            {% elif is_board_manager %}
+                <img title="删除" id="delete-thread" class="pull-right del-edit"
+                     src="{{ url_for('static', filename='front/images/delete.png') }}"
+                     alt="">
+                <img title="编辑" id="edit-thread" tid="{{ thread.id }}" class="pull-right del-edit"
+                     src="{{ url_for('static', filename='front/images/edit.png') }}"
+                     alt="">
+                {% if is_liked %}
+                    <img title="点赞" flag="1" class="pull-right option is_liked"
+                         src="{{ url_for('static', filename='front/images/like.png') }}" alt=""/>
+                {% else %}
+                    <img title="点赞" flag="1" class="pull-right option"
+                         src="{{ url_for('static', filename='front/images/like.png') }}" alt=""/>
+                {% endif %}
+
+                {% if is_collected %}
+                    <img title="收藏" flag="2" class="pull-right option is_liked"
+                         src="{{ url_for('static', filename='front/images/collect.png') }}" alt=""/>
+                {% else %}
+                    <img title="收藏" flag="2" class="pull-right option"
+                         src="{{ url_for('static', filename='front/images/collect.png') }}" alt=""/>
+                {% endif %}
+            {% else %}
+                {% if is_liked %}
+                    <img title="点赞" flag="1" class="pull-right option is_liked"
+                         src="{{ url_for('static', filename='front/images/like.png') }}" alt=""/>
+                {% else %}
+                    <img title="点赞" flag="1" class="pull-right option"
+                         src="{{ url_for('static', filename='front/images/like.png') }}" alt=""/>
+                {% endif %}
+
+                {% if is_collected %}
+                    <img title="收藏" flag="2" class="pull-right option is_liked"
+                         src="{{ url_for('static', filename='front/images/collect.png') }}" alt=""/>
+                {% else %}
+                    <img title="收藏" flag="2" class="pull-right option"
+                         src="{{ url_for('static', filename='front/images/collect.png') }}" alt=""/>
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+        <!--发表评论-->
+        <div class="publish container-fluid">
+            <script style="height: 100px" type="text/plain" id="editor"></script>
+            <a id="publish-comment-btn">
+                <img src={{ url_for('static', filename='front/images/post-btn.png') }}/>
+            </a>
+        </div>
+
+        <div class="comment">
+            <h4>评论({{ comments | length }})
+            </h4>
+            <ul>
+                {% if not comments %}
+                    <div class="no-comment">还没有评论，快来抢沙发吧！</div>
+                {% else %}
+                    {% for comment in comments %}
+                        <li class="comment-item" cid="{{ comment.id }}">
+                            <img class="avatar"
+                                 src="{{ comment.author.avatar or url_for('avatar', text=comment.author.username) }}"
+                                 alt="头像太帅，加载不出！">
+                            <div class="comment-item-info">
+                                <script>
+                                    function showCommentArea(ele) {
+                                        var ele = $(ele);
+                                        var childCommentArea = ele.parent().parent().find('.comArea');
+                                        childCommentArea.toggle()
+                                    }
+                                </script>
+                                <p class="username">{{ comment.author.username }}评论于{{ comment.create_time | timedelta }}
+                                    {% if g.front_user and g.front_user == comment.author %}
+                                        <a href="" class="com-del-btn" cid="{{ comment.id }}" parent-comment="1">删除</a>
+                                    {% endif %}
+                                    <span class="glyphicon glyphicon-thumbs-up com-like-btn"
+                                          cid="{{ comment.id }}"></span>
+                                    <span>{{ comment.likes | length }}</span>
+                                    &nbsp;<span style="cursor: pointer" onclick="showCommentArea(this)">回复</span>
+                                </p>
+                                <p>{{ comment.content | safe }}</p>
+                                <div class="child-comment-area">
+                                    {% for child in comment.children[:-6:-1] %}
+                                        <div class="child-comment col-sm-8" pcid="{{ comment.id }}">
+                                            <p class="username">{{ child.author.username }}评论于{{ child.create_time | timedelta }}
+                                                <span class="pull-right">
+                                                    <span class="glyphicon glyphicon-thumbs-up com-like-btn"
+                                                          cid="{{ child.id }}"></span>
+                                                    <span class="">{{ child.likes | length }}</span>
+                                                </span>
+
+
+                                                {% if g.front_user and g.front_user == child.author %}
+                                                    <a href="#" class="com-del-btn" cid="{{ child.id }}">删除</a>
+                                                {% endif %}
+                                            <p>{{ child.content | safe }}</p>
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                {% if comment.children %}
+                                    <div class="child-comment col-sm-8">
+                                        <p style="overflow: hidden">
+                                    <span cur-page="1"
+                                          cid="{{ comment.id }}" class="loadMoreCom"
+                                          uid="{{ g.front_user.id if g.front_user else '' }}">
+                                    加载更多
+
+                                    </span>
+
+                                            <span class="glyphicon glyphicon-chevron-up remove-more-comm-btn"
+                                                  cid="{{ comment.id }}">收起评论</span>
+                                        </p>
+                                    </div>
+                                {% endif %}
+
+                                <div class="comArea col-sm-8" style="display: none;">
+                                    <form class="form childCommentArea">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <textarea class="form-control child-comment-content" rows="5" cols="50"
+                                                          style="margin-bottom: 5px"></textarea>
+                                            </div>
+                                            <div class="input-group">
+                                                <button cid="{{ comment.id }}" type="submit"
+                                                        class="btn btn-primary publish-child-comment-btn">回复
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="sm-container col-sm-3">
+        {#<img src="{{ thread.author.avatar or url_for('static', filename="front/images/logo.png")}}" alt="头像太帅，加载不出！">#}
+        <div id='profile-div'><img src="{{ thread.author.avatar or url_for('avatar', text=thread.author.username) }}"
+                                   alt="头像太帅，加载不出！">
+            <div class="info"><a class="btn" id="profile-btn"
+                                 href="{{ url_for('front.profile', id=thread.author_id) }}">Ta的主页</a></div>
+        </div>
+
+        <div class="right-container hover-style" style="margin-top: 8px">
+            <div class="item-list-head">
+                <h4>最近发表</h4>
+            </div>
+
+            <div class="">
+                {% for thread in thread.author.threads %}
+                    {% if loop.index <6 %}
+                        <a class="list-group-item"
+                           href="{{ url_for('front.thread_detail', thread_id=thread.id) }}">{{ thread.title }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div>
+                <img id="test" src="{{ url_for('static', filename='front/images/gototop.png') }}"
+                     style="position:fixed;right:10px;bottom:10px;width: 60px;height: 60px;z-index: 99"/>
+                <script>
+                    test.onclick = function () {
+                        scrollTo(0, 0);
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

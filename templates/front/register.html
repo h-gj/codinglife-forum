@@ -1,0 +1,68 @@
+{% extends 'front/reg_log_base.html' %}
+{% block title %}用户注册{% endblock %}
+{% block head %}
+    <script src="{{ static('front/js/register.js') }}"></script>
+    <style>
+        .capcha-addon {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .capcha-img {
+            width: 94px;
+            height: 32px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block h2 %}用户注册{% endblock %}
+
+{% block form_box %}
+    <form:form action="/login" method="post" role="form">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" name="email" placeholder="您的邮箱">
+                <span class="input-group-btn">
+                        <button id="send_sms" class="btn btn-default">发送验证码</button>
+            </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="captcha" placeholder="邮箱验证码">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="用户名">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" name="password1" placeholder="密码">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" name="password2" placeholder="确认密码">
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" name="img_captcha" placeholder="图形验证码">
+                <span class="input-group-addon capcha-addon">
+                        <img class="capcha-img" id="capcha-img" src="{{ url_for('common.captcha') }}" alt="">
+                    </span>
+            </div>
+        </div>
+        {% if next_to %}
+            <span id="next_to" hidden="hidden">{{ next_to }}</span>
+        {% endif %}
+        <div class="form-group">
+            <button class="btn btn-warning btn-block" id="sub-btn">立即注册</button>
+        </div>
+
+        <div class="form-group">
+            <a href="{{ url_for('front.index') }}" class="pull-left">回到首页</a>
+            <a href="{{ url_for('front.login') }}" class="pull-right">已有账号，立即登录</a>
+        </div>
+    </form:form>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'front/reg_log_base.html' %}
+{% block title %}重置密码{% endblock %}
+
+{% block h2 %}重置密码{% endblock %}
+
+{% block form_box %}
+    <div class="form-group">
+        <input type="text" class="form-control" name="email" placeholder="请输入您的邮箱" value="{{ email or ''}}">
+    </div>
+
+    <div class="form-group">
+        <input id="login" type="submit" class="form-control btn btn-warning" value="提交">
+    </div>
+
+    <div class="form-group">
+         <a href="{{ url_for('front.login') }}" class="pull-right">返回登录</a>
+    <a href="{{ url_for('front.index') }}" class="pull-left">回到首页</a>
+    </div>
+
+    <script>
+        $('#login').click(function (e) {
+            e.preventDefault();
+            zlajax.post({
+                url: '/resetpwd',
+                data: {
+                    email: $('input[name="email"]').val()
+                },
+                success: function (data) {
+                    if (data['code'] === 200) {
+                        $('.alert-container').removeClass('hidden');
+                        $('.strong').text('重置密码链接已发送至该邮箱！');
+                        var count = 60;
+                        var log_btn = $('#login');
+                        log_btn.attr('disabled', 'disabled');
+                        var timer = setInterval(function () {
+                            log_btn.val(count + 's后可重新发送');
+                            count--;
+                            if (count <= 0) {
+                                log_btn.removeAttr('disabled');
+                                clearInterval(timer);
+                                log_btn.val('重新发送')
+                            }
+                        }, 1000);
+                    } else {
+                        $('.alert-container').removeClass('hidden');
+                        $('.strong').text(data['message'])
+                    }
+                }
+            })
+        })
+    </script>
+{% endblock %}

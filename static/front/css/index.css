@@ -1,0 +1,169 @@
+.post-group {
+    margin-top: 20px;
+    border: 2px solid #e8e8e8;
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+.post-group-head {
+    overflow: hidden;
+    list-style: none;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-group-head li {
+    float: left;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.post-group-head li a {
+    color: #555555;
+    text-decoration: none;
+}
+
+.post-group-head li a:hover {
+    color: #f0ad4e;
+}
+
+.post-group-head li:first-child {
+    border-left: solid #f0ad4e;
+    border-left-width: medium;
+    padding-left: 15px;
+}
+
+.post-group-head li.active a {
+    /*background-color: #337ab7;*/
+    /*border-radius: 5px;*/
+    padding: 5px;
+    color: #eea236;
+}
+
+.post-item-group {
+    overflow: hidden;
+    padding: 5px;
+    /*background-color: #CCCC99;*/
+    border-radius: 10px;
+}
+
+.author-avatar img {
+    width: 60px;
+    height: 60px;
+    float: left;
+    border-radius: 50%;
+    margin: 0 15px 10px 0;
+}
+
+.post-item {
+    padding: 10px 0 10px 10px;
+    margin: 5px 0 5px 5px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+
+.post-item p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+.post-item a {
+    color: #444444;
+}
+
+
+.post-item a:hover {
+    color: #eea236;
+    text-decoration: none;
+}
+
+
+.post-item .title {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.post-item-info {
+    color: #8c8c8c;
+}
+
+.thread-info {
+    margin: 0 13px 0 4px;
+}
+
+.post-group hr {
+    margin: 0;
+}
+
+.recommend li a {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.hover-style a:hover {
+    color: #eea236;
+}
+
+.jumbotron {
+    padding: 36px 48px;
+    margin-bottom: 0;
+    border-radius: 6px;
+    /*background-color: #e6e6e6;*/
+    background-color: #d6d6d6;
+    text-align: center;
+}
+
+.list-group-item {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: none;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.right-container {
+    background-color: white;
+    border: 1px #e8e8e8 solid;
+}
+
+.right-container h4 {
+    color: #f0ad4e;
+    border-bottom: 2px solid #f0ad4e;
+    padding: 8px 0 5px 0
+}
+
+.item-list-head {
+    padding: 6px 0 10px 14px
+}
+
+.item-list-head a:hover {
+    background: none;
+}
+
+.most-liked-user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-left: 8px;
+    border: 1px solid #FED030;
+}
+
+.rank-list-username {
+    font-size: 15px;
+}
+
+.rank-list:hover {
+    zoom: 1.1;
+}
+
+.vertical-align {
+    vertical-align: middle;
+}

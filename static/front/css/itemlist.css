@@ -1,0 +1,71 @@
+.item-info-div {
+    padding: 6px 12px;
+}
+
+.item-title {
+    font-size: 18px;
+    color: #d09746;
+}
+
+.item-title:hover {
+    color: #f19e27;
+}
+
+.hover {
+    background: #eeeeee;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.author-info {
+    margin: 20px 0;
+    overflow: hidden
+}
+
+.title {
+    float: left;
+    margin-left: 20px
+}
+
+.author-info img {
+    float: left;
+    width: 150px;
+    height: 150px
+}
+
+.list-group ul li {
+    margin: 9px 0;
+}
+
+.list-group hr {
+    margin: 13px 0;
+}
+
+.item-info {
+    margin: 0 10px 0 4px;
+}
+
+.item-title-li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h5 {
+    padding-top: 6px;
+    color: #b9b9b9;
+    font-size: 15px
+}
+
+.list-group {
+    margin-top: 30px
+}
+
+.remove-item-btn {
+    color: #0f0f0f;
+}
+
+.remove-item-btn:hover {
+    text-decoration: none;
+    color: #0f0f0f;
+}

@@ -1,0 +1,87 @@
+{% from 'common/_macros.html' import static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CodingLife - {% block title %}{% endblock %}</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="icon" href="{{ url_for('static', filename='common/favicon.ico') }}" type="image/x-icon"/>
+    <link type=text/css href="{{ url_for('static', filename="common/bootstrap/css/bootstrap.min.css") }}"
+          rel="stylesheet">
+    <link type=text/css rel="stylesheet" href="{{ static('common/sweetalertv/sweetalert.css') }}">
+    {#    <link type=text/css rel="stylesheet" href="{{ static('front/css/reg_log_base.css') }}">#}
+    <script src="{{ static('common/bootstrap/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ static('common/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+    <script src="{{ static('common/set_url_param.js') }}"></script>
+    <script src="{{ static('common/zlajax.js') }}"></script>
+    <script src="{{ static('common/sweetalertv/sweetalert.min.js') }}"></script>
+    <script src="{{ static('common/sweetalertv/xtalert.js') }}"></script>
+    {% block head %}{% endblock %}
+    <style>
+        /*web background*/
+        .container {
+            display: table;
+            height: 100%;
+        }
+
+        .row {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        /* centered columns styles */
+        .row-centered {
+            text-align: center;
+        }
+
+        .col-centered {
+            display: inline-block;
+            float: none;
+            text-align: left;
+            margin-right: -4px;
+        }
+
+
+        h2 {
+            margin-top: 4px;
+            margin-bottom: 15px;
+            font-size: 25px;
+        }
+
+        .well-container {
+            background-color: #ffffff;
+            border-radius: 0;
+            padding: 19px 40px;
+        }
+
+        body {
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row row-centered">
+        <div class="well col-md-6 col-centered well-container">
+            <div class="logo" style="text-align: center">
+                <a href="/">
+                    <img class="logo-img" style="width: 250px" src="{{ static('front/images/logo.png') }}" alt="">
+                </a>
+                <h3 style="margin-top: 0">{% block h2 %}{% endblock %}</h3>
+            </div>
+
+            <div class="alert alert-warning alert-dismissible hidden alert-container" role="alert">
+                <p class="strong"></p>
+            </div>
+
+            {% block form_box %}{% endblock %}
+            <span id="next_to" hidden="hidden">{{ next_to or '/' }}</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

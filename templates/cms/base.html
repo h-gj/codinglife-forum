@@ -1,0 +1,82 @@
+{% from 'common/_macros.html' import static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'common/_heads.html' %}
+    <title>{% block title %}{% endblock %} - CodingLife</title>
+    <link type=text/css rel="stylesheet" href="{{ static('cms/css/cms_base.css') }}">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″ />
+    <script src="{{ static('cms/js/cms_base.js') }}"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% set user = g.cms_user %}
+     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CodingLife后台管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('cms.get_profile') }}">{{ g.cms_user.username }}</a></li>
+            <li><a href="{{ url_for('cms.logout') }}">注销</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="查找...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-3 col-md-2 sidebar">
+              <ul class="nav-sidebar">
+                <li class="unfold"><a href="{{ url_for('cms.index') }}">首页</a></li>
+                <li class="profile-li">
+                    <a href="#">个人中心<span></span></a>
+                    <ul class="subnav">
+                        <li><a href="{{ url_for('cms.get_profile') }}">个人信息</a></li>
+                        <li><a href="{{ url_for('cms.resetpwd') }}">修改密码</a></li>
+                        <li><a href="{{ url_for('cms.resetemail') }}">修改邮箱</a></li>
+                    </ul>
+                </li>
+                  <li class="nav-group banner-manage"><a href="{{ url_for('cms.banner_manage') }}">轮播管理</a></li>
+                  {% if user.has_permission(CMSPermission.POSTER) %}
+                      <li class="nav-group post-manage"><a href="{{ url_for('cms.thread_manage') }}">帖子管理</a></li>
+                  {% endif %}
+                  {% if user.has_permission(CMSPermission.COMMENTER) %}
+                      <li class="comments-manage"><a href="{{ url_for('cms.comment_manage') }}">评论管理</a></li>
+                  {% endif %}
+                  {% if user.has_permission(CMSPermission.BOARDER) %}
+                      <li class="board-manage"><a href="{{ url_for('cms.board_manage') }}">板块管理</a></li>
+                  {% endif %}
+                  {% if user.has_permission(CMSPermission.FRONTUSER) %}
+                      <li class="nav-group user-manage"><a href="{{ url_for('cms.fuser_manage') }}">用户管理</a></li>
+                  {% endif %}
+                  {% if user.has_permission(CMSPermission.CMSUSER) %}
+                      <li class="nav-group cmsuser-manage"><a href="{{ url_for('cms.buser_manage') }}">CMS用户管理</a></li>
+                  {% endif %}
+
+                  {% if user.has_permission(CMSPermission.BOARD_MANAGER) %}
+                      <li class="board-manager-manage"><a href="{{ url_for('cms.board_manager_manage') }}">版主管理</a></li>
+                  {% endif %}
+
+            </ul>
+          </div>
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main side-bar">
+            <h1>{% block page_title %}{% endblock %}</h1>
+            <div class="main_content">
+                {% block main_content %}{% endblock %}
+            </div>
+          </div>
+      </div>
+    </div>
+</body>
+</html>

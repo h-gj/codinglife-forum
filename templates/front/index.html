@@ -1,0 +1,231 @@
+{% extends 'front/index_base.html' %}
+{% from 'common/_macros.html' import static %}
+
+
+{% block head %}
+    <link type=text/css rel="stylesheet" href="{{ static('front/css/index.css') }}">
+    <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 414px)"
+          href={{ static('front/css/mobile_device.css') }}/>
+{% endblock %}
+
+{% block body %}
+    <div class="lg-container col-lg-7 col-lg-offset-1">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {% for banner in banners %}
+                    {% if loop.index == 1 %}
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    {% else %}
+                        <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index - 1 }}"></li>
+                    {% endif %}
+                {% endfor %}
+
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox" style="border-radius: 25px">
+                {% for banner in banners %}
+                    {% if loop.index == 1 %}
+                        <div class="item active">
+                    {% else %}
+                        <div class="item">
+                    {% endif %}
+                <a href="{{ banner.link_url }}"><img src="{{ banner.img_url }}" alt="" style="width: 100%;height: 480px"></a>
+                </div>
+                {% endfor %}
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev" style="border-radius: 25px">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next" style="border-radius: 25px">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+
+            <div class="post-group">
+                <hr>
+                <ul class="post-group-head">
+
+                    {% if filter_by == 'most-newest' %}
+                        <li class="active"><a
+                                href="{{ url_for('front.index', filter_by='most-newest', bid=board_id) }}">最新帖子</a></li>
+                    {% else %}
+                        <li class=""><a
+                                href="{{ url_for('front.index', filter_by='most-newest', bid=board_id) }}">最新帖子</a></li>
+                    {% endif %}
+
+                    {% if filter_by == 'well-chosen' %}
+                        <li class="active"><a
+                                href="{{ url_for('front.index', filter_by='well-chosen', bid=board_id) }}">精华帖子</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index', filter_by='well-chosen', bid=board_id) }}">精华帖子</a></li>
+                    {% endif %}
+
+                    {% if filter_by == 'liked-most' %}
+                        <li class="active"><a href="{{ url_for('front.index', filter_by='liked-most', bid=board_id) }}">点赞最多</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index', filter_by='liked-most', bid=board_id) }}">点赞最多</a></li>
+                    {% endif %}
+
+                    {% if filter_by == 'commented-most' %}
+                        <li class="active"><a
+                                href="{{ url_for('front.index', filter_by='commented-most', bid=board_id) }}">评论最多</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index', filter_by='commented-most', bid=board_id) }}">评论最多</a>
+                        </li>
+                    {% endif %}
+
+                    {% if filter_by == 'browsed-most' %}
+                        <li class="active"><a
+                                href="{{ url_for('front.index', filter_by='browsed-most', bid=board_id) }}">浏览最多</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index', filter_by='browsed-most', bid=board_id) }}">浏览最多</a></li>
+                    {% endif %}
+
+                </ul>
+                <hr>
+                <ul class="post-item-group">
+                    {% for thread in threads %}
+                        <li>
+                            <div class="post-item">
+                                <div class="author-avatar">
+                                    <img src="{{ thread.author.avatar or url_for('avatar', text=thread.author.username) }}"
+                                         alt="">
+                                </div>
+                                <div class="post-item-right">
+                                    <p class="title">
+                                        <a href="{{ url_for('front.thread_detail', thread_id=thread.id) }}">{{ thread.title }}</a>
+                                        {% if thread.hlthread %}
+                                            <span class="label label-warning">&nbsp精&nbsp</span>
+                                        {% endif %}
+                                    </p>
+                                    <span class="post-item-info">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span
+                                            class="thread-info">{{ thread.author.username }}</span>
+                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span><span
+                                            class="thread-info">{{ thread.create_time | timedelta }}</span>
+                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><span
+                                            class="thread-info">{{ thread.likes | length }}</span>
+                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span
+                                            class="thread-info">{{ thread.comments | length }}</span>
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span
+                                            class="thread-info">{{ thread.browse_num }}</span>
+                                    <span><span
+                                            class="thread-info pull-right hidden-in-mobile">{{ thread.board.name }}</span><span
+                                            class="hidden-in-mobile pull-right glyphicon glyphicon-tag"
+                                            aria-hidden="true"></span></span>
+                                </span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <div style="text-align: center">
+                {{ pagination.links }}
+            </div>
+        </div>
+
+        <div class="sm-container col-lg-3">
+            <div>
+                <div class="publish" style="padding-bottom: 10px">
+                    <a href="{{ url_for('front.post') }}" class="btn btn-warning btn-block">发布帖子</a>
+                </div>
+
+                <div class="right-container hover-style">
+                    <div class="item-list-head">
+                        <a style="padding: 0;" href="{{ url_for('front.index') }}"
+                           class=" list-group-item"><h4>所有板块</h4></a>
+                    </div>
+
+                    <div class="">
+                        {% for board in boards %}
+                            {% if board.id == board_id %}
+                                <a href="{{ url_for('front.index', bid=board.id) }}"
+                                   class="list-group-item" style="color: #eea236">{{ board.name }}<span
+                                        class="badge">{{ board.threads | length }}篇</span></a>
+                            {% else %}
+                                <a href="{{ url_for('front.index', bid=board.id) }}"
+                                   class=" list-group-item">{{ board.name }}<span
+                                        class="badge">{{ board.threads | length }}篇</span></a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="right-container hover-style" style="margin-top: 8px">
+                    <div class="item-list-head">
+                        <h4>推荐阅读</h4>
+                    </div>
+
+                    <div class="">
+                        {% for rec in recommend %}
+                            <a href="{{ url_for('front.thread_detail', thread_id=rec.id) }}"
+                               class="list-group-item">{{ rec.title }}<span
+                                    class="badge">{{ rec.likes | length }}赞</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="right-container hover-style" style="margin-top: 8px">
+                    <div class="item-list-head">
+                        <h4>获赞排行</h4>
+                    </div>
+
+                    <div class="">
+                        {% for user in most_liked_user %}
+                            <div>
+                                {% if loop.index == 1 %}
+                                    <a style="height:100px;line-height:100px" href="{{ url_for('front.profile', id=user.id) }}"
+                                       class="list-group-item rank-list"><span
+                                            class="badge">共获{{ user.total_liked_num }}赞</span>
+                                        <img src="{{ url_for('static', filename='front/images/champion.png') }}" alt="" class="vertical-align">
+                                        <img class="most-liked-user-avatar vertical-align"
+                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+                                        <span style="vertical-align:middle;height:100px;line-height:100px;display: inline-block" class="rank-list-username" >{{ user.username }}</span>
+                                    </a>
+                                {% endif %}
+
+                                {% if loop.index == 2 %}
+                                    <a href="{{ url_for('front.profile', id=user.id) }}"
+                                       class="list-group-item rank-list"><span
+                                            class="badge">共获{{ user.total_liked_num }}赞</span>
+                                        <img src="{{ url_for('static', filename='front/images/secondplace.png') }}"
+                                             alt="" class="vertical-align">
+                                        <img class="most-liked-user-avatar vertical-align"
+                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+                                        <span class="rank-list-username">{{ user.username }}</span>
+                                    </a>
+                                {% endif %}
+
+                                {% if loop.index == 3 %}
+                                    <a href="{{ url_for('front.profile', id=user.id) }}"
+                                       class="list-group-item rank-list">
+                                        <img src="{{ url_for('static', filename='front/images/thirdplace.png') }}"
+                                             alt="" class="vertical-align">
+                                        <img class="most-liked-user-avatar vertical-align"
+                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+
+                                    <span class="badge">共获{{ user.total_liked_num }}赞</span>
+                                        <span class="rank-list-username">{{ user.username }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+{% endblock %}

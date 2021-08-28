@@ -1,0 +1,62 @@
+{% extends 'cms/base.html' %}
+{% block title %}
+    评论管理
+{% endblock %}
+{% block page_title %}
+    评论管理
+{% endblock %}
+{% block head %}
+    <script src="{{ url_for('static', filename='cms/js/comment.js') }}"></script>
+{% endblock %}
+{% block main_content %}
+    <style type="text/css">
+        .table {
+            table-layout: fixed;
+            word-break: break-all;
+            text-overflow: ellipsis
+        }
+
+        .content {
+            overflow: hidden
+        }
+
+        .content img {
+            max-height: 100px;
+        }
+
+        .table tbody tr td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>帖子ID</th>
+            <th>帖子标题</th>
+            <th>评论者</th>
+            <th>评论内容</th>
+            <th>评论时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.thread.id }}</td>
+                <td>
+                    <a href="{{ url_for('front.thread_detail', thread_id=comment.thread.id) }}">{{ comment.thread.title }}</a>
+                </td>
+                <td>{{ comment.author.username }}</td>
+                <td class="content">{{ comment.content | safe }}</td>
+                <td>{{ comment.create_time }}</td>
+                <td>
+                    <button comment_id="{{ comment.id }}" class="btn btn-danger comment-del-btn">删除</button>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

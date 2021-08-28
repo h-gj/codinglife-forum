@@ -1,0 +1,66 @@
+{% extends 'front/index_base.html' %}
+
+{% block title %}{{ title }}列表 - {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename="front/css/itemlist.css") }}">
+    <script src="{{ url_for('static', filename="front/js/itemlist.js") }}"></script>
+    <style>
+        .item-title:hover {
+            color: #eea236;
+        }
+
+        .container {
+            background-color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container col-sm-8 col-sm-offset-2">
+        <div class="author-info">
+            <img src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+            <div class="title">
+                <h2>{{ user.username }}</h2>
+                {% if title == '帖子' %}
+                    <h5>共发表{{ items | length }}篇帖子</h5>
+                {% else %}
+                    <h5>共收藏{{ items | length }}篇帖子</h5>
+                {% endif %}
+            </div>
+        </div>
+        <div class="list-group">
+            <ul>
+                {% for item in items %}
+                    <a href="{{ url_for('front.thread_detail', thread_id=item.id) }}"
+                       style="color: #444444;text-decoration: none;">
+                        <div class="item-info-div">
+                            <li class="thead-title-li"><p class="item-title">{{ item.title }}</p></li>
+                            <li class="item-info-li"><span class="glyphicon glyphicon-user"
+                                                           aria-hidden="true"></span><span
+                                    class="item-info">{{ item.author.username }}</span>
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span><span
+                                        class="item-info">{{ item.create_time | timedelta }}</span>
+                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><span
+                                        class="item-info">{{ item.likes | length }}</span>
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span
+                                        class="item-info">{{ item.comments | length }}</span>
+
+                                <span><span class="glyphicon glyphicon-tag"
+                                            aria-hidden="true"></span><span
+                                        class="item-info">{{ item.board.name }}</span></span>
+
+                                {% if g.front_user == user %}
+                                    <a class="remove-item pull-right remove-item-btn" iid="{{ item.id }}"
+                                       href="{{ url_for('front.del_item', iid=item.id) }}"><span
+                                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除</a>
+                                {% endif %}
+                            </li>
+                        </div>
+                    </a>
+                    <hr>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

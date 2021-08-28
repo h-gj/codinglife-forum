@@ -1,0 +1,14 @@
+/imgs/
+/upload/
+*.pyc
+*.sql
+.idea
+__pycache__
+nohup.out
+migrations
+env.py
+.qiniu_pythonsdk_hostscache.json
+.cache/
+*.log
+log/
+

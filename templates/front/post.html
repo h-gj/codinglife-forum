@@ -1,0 +1,53 @@
+{% extends 'front/index_base.html' %}
+
+{% block title %}发布帖子 - {% endblock %}
+
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename="ueditor/ueditor.config.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="ueditor/ueditor.all.js") }}"></script>
+    <script src="{{ url_for('static', filename="front/js/post.js") }}"></script>
+    <style>
+        body {
+            margin: 0 auto;
+        }
+
+        .publish {
+            float: right;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="content" hidden>{{ thread.content | safe }}</div>
+    <div id="title" hidden>{{ thread.title }}</div>
+    <div id="board" hidden>{{ thread.board_id }}</div>
+    <div class="post-container col-sm-8 col-sm-offset-2">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">标题</span>
+                <input type="text" class="form-control" name="title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">板块</span>
+                <select name="board" id="" class="form-control">
+                    {% for board in boards %}
+                        <option value="{{ board.id }}">{{ board.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group editor">
+            <script id="container" name="content" type="text/plain" style="height: 320px"></script>
+        </div>
+
+
+        <div class="form-group publish">
+            <button class="btn btn-warning" id="publish-btn" tid="{{ thread.id }}">发布</button>
+        </div>
+    </div>
+
+{% endblock %}

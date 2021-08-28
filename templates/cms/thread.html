@@ -1,0 +1,43 @@
+{% extends 'cms/base.html' %}
+{% from 'common/_macros.html' import static %}
+{% block title %}
+    帖子管理
+{% endblock %}
+{% block head %}
+    <script src="{{ static('cms/js/thread.js') }}"></script>
+{% endblock %}
+{% block page_title %}
+    帖子管理
+{% endblock %}
+{% block main_content %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>标题</th>
+                <th>发布时间</th>
+                <th>板块</th>
+                <th>作者</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for thread in threads %}
+                <tr thread_id="{{ thread.id }}">
+                    <td>{{ thread.title }}</td>
+                    <td>{{ thread.create_time }}</td>
+                    <td>{{ thread.board.name }}</td>
+                    <td>{{ thread.author.username }}</td>
+                    <td>
+                        {% if thread.hlthread %}
+                            <button class="btn btn-default btn-xs hl-thread" flag="1">取精</button>
+                        {% else %}
+                            <button class="btn btn-default btn-xs hl-thread" flag="2">加精</button>
+                        {% endif %}
+                        <button class="btn btn-danger btn-xs hl-thread" flag="0">移除</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="" style="text-align: center">{{ pagination.links }}</div>
+{% endblock %}
