@@ -1,0 +1,34 @@
+body {
+    background: #f3f3f3;
+    margin-top: 40px;
+}
+
+.outer-box {
+    background-color: #fff;
+    text-align: center;
+    padding: 25px 10px;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+
+}
+
+.form-box {
+    padding: 20px 30px 10px 20px;
+}
+
+.capcha-addon {
+    padding: 0;
+    overflow: hidden;
+}
+
+.capcha-img {
+    width: 94px;
+    height: 32px;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 4px;
+    font-size: 25px;
+}
+

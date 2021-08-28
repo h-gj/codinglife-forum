@@ -1,0 +1,33 @@
+{% extends 'front/reg_log_base.html' %}
+{% block title %}用户登录{% endblock %}
+{% block head %}
+    <script src="{{ static('front/js/login.js') }}"></script>
+{% endblock %}
+
+{% block h2 %}用户登录{% endblock %}
+
+{% block form_box %}
+    <form:form action="/login" method="post" role="form">
+        <div class="form-group">
+            <input type="text" class="form-control" name="account" placeholder="请输入用户名/邮箱">
+    </div>
+
+    <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="请输入密码">
+    <div style="float: left" class="checkbox">
+        <label>
+            <input type="checkbox" name="remember" value="1">记住密码
+        </label>
+    </div>
+    </div>
+
+    <div class="form-group">
+            <input id="login" type="submit" class="btn btn-warning btn-block" value="立即登录">
+    </div>
+
+    <div class="form-group">
+        <a href="{{ url_for('front.reset_password') }}" class="pull-left">找回密码</a>
+        <a href="{{ url_for('front.register') }}" class="pull-right">立即注册</a>
+    </div>
+    </form:form>
+{% endblock %}

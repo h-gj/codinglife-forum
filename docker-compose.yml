@@ -1,0 +1,56 @@
+version: '3'
+services:
+  db:
+    image: 'mysql:5.7'
+    container_name: 'db'
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - /var/docker/mysql:/var/lib/mysql
+      # - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+    ports:
+      - '3306:3306'
+    restart: always
+  web:
+    image: '123123hgj/web:v1.4'
+    container_name: 'web'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    volumes:
+      - /var/www/app:/var/www/flask
+    links:
+      - db:mysql
+      - cache
+    restart: always
+  proxy:
+    image: '123123hgj/proxy:v1.8'
+    # image: 'localhost:5000/proxy:v.1.7'
+    container_name: 'proxy'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/www/app/proxy/log:/var/log/nginx
+      - /var/www/app/static:/var/www/static
+      - /var/www/app/proxy/cert:/etc/nginx/cert
+    links:
+      - web
+    restart: always
+  blog:
+    image: 'ghost:latest'
+    container_name: 'blog'
+    environment:
+      - url=http://blog.hugaojian.com
+    volumes:
+      - /var/lib/data/ghost/blog:/var/lib/ghost/content
+    ports:
+      - '2368:2368'
+  wp:
+    image: 'wordpress:latest'
+    restart: always
+    container_name: 'wordpress'
+    ports:
+      - '8088:80'

@@ -1,0 +1,49 @@
+{% extends 'front/index_base.html' %}
+
+{% block title %}{{ user.username }} - {% endblock %}
+
+{% block head %}
+    <link type=text/css rel="stylesheet" href="{{ url_for('static', filename="front/css/profile.css") }}">
+    <script src="{{ url_for('static', filename="front/js/profile.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="body-container col-sm-8 col-sm-offset-2">
+        <h2>TA的信息</h2>
+        <div class="avatar-username">
+            <img id="avatar" src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="" style="border-radius: 50%">
+        <span class="username"><b>{{ user.username }}</b></span>
+        </div>
+        <table class="table table-bordered table-striped table-style">
+            <tbody>
+
+            <tr class="">
+                <td>邮箱</td>
+                <td>{{ user.email or '' }}</td>
+            </tr>
+
+            <tr class="">
+                <td>QQ</td>
+                <td>{{ user.qq or '' }}</td>
+            </tr>
+            <tr class="">
+                <td>性别</td>
+                <td>{{ user.gender.value or '' }}</td>
+            </tr>
+            <tr class="">
+                <td>发帖数</td>
+                <td>{{ user.threads | length }}</td>
+            </tr>
+
+            <tr class="">
+                <td>最近发帖</td>
+                <td>{{ last_ptime }}</td>
+            </tr>
+            <tr class="">
+                <td>TA的帖子</td>
+                <td><a href="{{ url_for('front.threadlist', uid=user.id) }}">查看帖子</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'front/index_base.html' %}
+
+{% block title %}搜索 - {% endblock %}
+
+{% block head %}
+    <style>
+        .main-container {
+            background-color: white;
+            padding: 5px 20px;
+        }
+
+        .author-avatar img {
+            margin: 20px;
+        }
+
+        .hover {
+            background: #eeeeee;
+            cursor: pointer
+        }
+
+        .post-item-group {
+            padding: 0;
+        }
+
+        .thread_count {
+            margin: 10px 0 5px 0;
+            font-size: 18px;
+            background-color: #eeeeee;
+            padding: 7px;
+            border-radius: 5px;
+        }
+
+        .search-item-box {
+            color: #444444;
+        }
+        .search-item-box:hover{
+            color: #eea236;
+        }
+
+    </style>
+    <link type=text/css rel="stylesheet" href="{{ url_for('static', filename='front/css/index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="search-box col-sm-offset-2 col-sm-8">
+        <div class="thread_count">共查询到{{ thread_count }}条匹配记录</div>
+        <ul class="post-item-group" style="padding: 0;">
+            {% for thread in threads %}
+                <a class="search-item-box" style="text-decoration: none;" href="{{ url_for('front.thread_detail', thread_id=thread.id) }}">
+                <li class="search-item">
+                    <div class="post-item">
+                        <div class="author-avatar">
+                            <img src="{{ thread.author.avatar or url_for('avatar', text=thread.author.username) }}"
+                                 alt="">
+                        </div>
+                        <p class="title">
+                            <span>{{ thread.title }}</span>
+                            {% if thread.hlthread %}
+                                <span class="label label-warning">&nbsp精&nbsp</span>
+                            {% endif %}
+                        </p>
+                        <p class="post-item-info">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span
+                                class="thread-info">{{ thread.author.username }}</span>
+                            <span class="glyphicon glyphicon-time" aria-hidden="true"></span><span
+                                class="thread-info">{{ thread.create_time | timedelta }}</span>
+                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><span
+                                class="thread-info">{{ thread.likes | length }}</span>
+                            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span
+                                class="thread-info">{{ thread.comments | length }}</span>
+                            <span style="float:right;"><span class="glyphicon glyphicon-tag"
+                                                             aria-hidden="true"></span><span
+                                    class="thread-info">{{ thread.board.name }}</span></span>
+                        </p>
+                    </div>
+                </li>
+                </a>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <script>
+        $(function () {
+            $('.search-item').hover(function () {
+                $(this).addClass('hover');
+            }, function () {
+                $(this).removeClass('hover')
+            });
+        });
+    </script>
+{% endblock %}
