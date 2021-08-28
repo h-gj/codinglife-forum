@@ -7,7 +7,8 @@ from apps.cms import bp as cms_bp
 from apps.common import bp as common_bp
 from apps.front import bp as front_bp
 from apps.ueditor import bp as ueditor_bp
-from exts import db, mail, cache
+from exts import cache
+from exts import db, mail
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -18,7 +19,6 @@ db.init_app(app)
 Avatar(app)
 
 cache.init_app(app)
-
 app.register_blueprint(front_bp)
 app.register_blueprint(common_bp)
 app.register_blueprint(cms_bp)

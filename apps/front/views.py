@@ -1,9 +1,5 @@
-import os
-import random
 import re
-import string
 import threading
-from datetime import datetime
 from functools import reduce
 from operator import add
 
@@ -11,23 +7,26 @@ import itsdangerous
 from flask import (Blueprint, render_template,
                    views, session,
                    url_for, g, abort, redirect)
-from flask import request, jsonify
-from flask_paginate import Pagination, get_page_parameter
-from qiniu import Auth, etag, put_file
-from sqlalchemy import func
-from sqlalchemy import or_
-from werkzeug.utils import secure_filename
 
-import config
-from apps.front.forms import RegisterForm, LoginForm, ThreadForm, CommentForm, UpdateProfileForm, ChildCommentForm
-from config import QINIU_AK, QINIU_BUCKET, QINIU_SK, QINIU_DOMAIN
-from exts import db, cache
-from utils import restful, safeutils
-from utils.mail import send_mail
+from exts import cache
 from utils.recorder import record_thread_browse_log
-from .models import FrontUser, GenderEnum, BoardManage, ThreadBrowseLogs
-from ..cms.auth import front_login_auth
+from apps.front.forms import RegisterForm, LoginForm, ThreadForm, CommentForm, UpdateProfileForm, ChildCommentForm
+from utils import restful, safeutils
+from exts import db
+from utils.mail import send_mail
+from .models import FrontUser, GenderEnum, BoardManage
 from ..models import Banner, Board, Thread, Comment, HlThread, ThreadLike, ThreadCollect, CommentLike
+from ..cms.auth import front_login_auth
+from flask_paginate import Pagination, get_page_parameter
+from sqlalchemy import or_
+from datetime import datetime
+from sqlalchemy import func
+import os, random, string
+from qiniu import Auth, etag, put_file
+from flask import request, jsonify
+from werkzeug.utils import secure_filename
+from config import QINIU_AK, QINIU_BUCKET, QINIU_SK, QINIU_DOMAIN
+import config
 
 bp = Blueprint('front', __name__)
 

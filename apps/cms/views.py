@@ -12,10 +12,12 @@ from exts import db
 from utils import restful
 from utils.mail import mail_and_cache
 from .auth import login_auth, access_auth
-from .forms import \
-    LoginForm, ResetPwdForm, ResetEmailForm, \
-    BannerForm, BannerModForm, BannerDelForm, \
-    BoardForm, BoardModForm, BoardManageForm
+from .forms import (
+    LoginForm, ResetPwdForm, ResetEmailForm,
+    BannerForm, BannerModForm, BannerDelForm,
+    BoardForm, BoardModForm, BoardManageForm,
+)
+
 from .models import CMSUser, CMSPermission, CMSRole
 from ..models import Banner, Board, Thread, Comment, HlThread
 
