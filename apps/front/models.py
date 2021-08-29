@@ -56,7 +56,7 @@ class BoardManage(db.Model):
 
 class ThreadBrowseLogs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
+    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id', ondelete='CASCADE'))
     request_ip = db.Column(db.String(15), nullable=True)
     user_id = db.Column(db.String(50), nullable=True)
     ua = db.Column(db.String(50), nullable=True)
