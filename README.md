@@ -1,28 +1,40 @@
-# Flask论坛系统
+# Forum System Based On Flask/Bootstrap
+Completed in my senior year back in college. I finished this project by following a video lesson and add some extra functions and styling a lot by myself.
+
+## Tech Stack
+- Python
+- Flask
+- Bootstrap
+- JQuery
+- AJAX
+- Nginx
+- uWSGI
+- Docker
+
+## Give a Glance
+- Home Page: 
+[![4eGnbT.png](https://z3.ax1x.com/2021/09/16/4eGnbT.png)](https://imgtu.com/i/4eGnbT)
+
+- Thread Detail Page:
+[![4eGGx1.png](https://z3.ax1x.com/2021/09/16/4eGGx1.png)](https://imgtu.com/i/4eGGx1)
+
+- Threads Management Page: 
+[![4eGwIe.png](https://z3.ax1x.com/2021/09/16/4eGwIe.png)](https://imgtu.com/i/4eGwIe)
+
+## Intro
+A simple forum where you can view threads, share threads and post your own threads and other features a normal forum system should have.
+There is also a admin system where you can manage website content.
+Your can give a role to a created admin. And admin with that role can manage content within their permission access.
 
 
-#### 介绍
+## Setup
+- git pull
+- cd codinglife-forum
+- (Optional) create a virtual env for this project
+- pip install -r requirements.txt
+- create config file
 
-基于Flask Web框架开发的论坛系统。前端使用Bootstrap、Jquery、AJAX等技术，数据库使用Mysql，使用Flask caching插件存储图形验证码和邮箱验证码。
-该项目采用B/S模型开发。该系统前台包括帖子的展示（最新帖子、点赞最多、评论最多）以及用户注册登录模块和收藏点赞删除评论功能；后台是基于管理员权限的CMS，不同身份具有不同的管理级别，管理内容有论坛版块、轮播图、帖子、前台用户、后台用户。
-
-
-#### 安装教程
-
-pip install requirements.txt
-
-
-#### 使用说明
-Prerequisite:
-python installed
-mysql installed
-
-Setup:
-git pull
-pip install -r requirements.txt
-
-
-create a file named env.py under project root directory and past following config(You should replace empty values with your specific config):
+create a file named env.py under project root directory and paste following config(You should replace empty values with your specific config):
 
 ```shell
 import os
@@ -46,7 +58,7 @@ os.environ['QINIU_DOMAIN'] = ''
 os.environ['SALT'] = ''
 ```
 
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
-flask run
+- python manage.py db init
+- python manage.py db migrate
+- python manage.py db upgrade
+- flask run / python app.py
