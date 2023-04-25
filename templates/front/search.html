@@ -50,7 +50,7 @@
                 <li class="search-item">
                     <div class="post-item">
                         <div class="author-avatar">
-                            <img src="{{ thread.author.avatar or url_for('avatar', text=thread.author.username) }}"
+                            <img src="{{ url_for('avatar', text=thread.author.username) }}"
                                  alt="">
                         </div>
                         <p class="title">

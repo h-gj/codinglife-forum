@@ -194,8 +194,7 @@
     </div>
 
     <div class="sm-container col-sm-3">
-        {#<img src="{{ thread.author.avatar or url_for('static', filename="front/images/logo.png")}}" alt="头像太帅，加载不出！">#}
-        <div id='profile-div'><img src="{{ thread.author.avatar or url_for('avatar', text=thread.author.username) }}"
+        <div id='profile-div'><img src="{{ url_for('avatar', text=thread.author.username) }}"
                                    alt="头像太帅，加载不出！">
             <div class="info"><a class="btn" id="profile-btn"
                                  href="{{ url_for('front.profile', id=thread.author_id) }}">Ta的主页</a></div>
