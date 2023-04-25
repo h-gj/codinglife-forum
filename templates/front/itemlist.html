@@ -19,7 +19,7 @@
 {% block body %}
     <div class="container col-sm-8 col-sm-offset-2">
         <div class="author-info">
-            <img src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+            <img src="{{ url_for('avatar', text=user.username) }}" alt="">
             <div class="title">
                 <h2>{{ user.username }}</h2>
                 {% if title == '帖子' %}

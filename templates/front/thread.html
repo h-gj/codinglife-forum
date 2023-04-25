@@ -109,7 +109,7 @@
                     {% for comment in comments %}
                         <li class="comment-item" cid="{{ comment.id }}">
                             <img class="avatar"
-                                 src="{{ comment.author.avatar or url_for('avatar', text=comment.author.username) }}"
+                                 src="{{ url_for('avatar', text=comment.author.username) }}"
                                  alt="头像太帅，加载不出！">
                             <div class="comment-item-info">
                                 <script>

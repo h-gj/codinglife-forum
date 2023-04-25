@@ -11,7 +11,7 @@
     <div class="body-container col-sm-8 col-sm-offset-2">
         <h2>TA的信息</h2>
         <div class="avatar-username">
-            <img id="avatar" src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="" style="border-radius: 50%">
+            <img id="avatar" src="{{ url_for('avatar', text=user.username) }}" alt="" style="border-radius: 50%">
         <span class="username"><b>{{ user.username }}</b></span>
         </div>
         <table class="table table-bordered table-striped table-style">

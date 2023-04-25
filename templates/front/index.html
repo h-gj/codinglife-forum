@@ -191,7 +191,7 @@
                                             class="badge">共获{{ user.total_liked_num }}赞</span>
                                         <img src="{{ url_for('static', filename='front/images/champion.png') }}" alt="" class="vertical-align">
                                         <img class="most-liked-user-avatar vertical-align"
-                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+                                             src="{{ url_for('avatar', text=user.username) }}" alt="">
                                         <span style="vertical-align:middle;height:100px;line-height:100px;display: inline-block" class="rank-list-username" >{{ user.username }}</span>
                                     </a>
                                 {% endif %}
@@ -203,7 +203,7 @@
                                         <img src="{{ url_for('static', filename='front/images/secondplace.png') }}"
                                              alt="" class="vertical-align">
                                         <img class="most-liked-user-avatar vertical-align"
-                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+                                             src="{{ url_for('avatar', text=user.username) }}" alt="">
                                         <span class="rank-list-username">{{ user.username }}</span>
                                     </a>
                                 {% endif %}
@@ -214,7 +214,7 @@
                                         <img src="{{ url_for('static', filename='front/images/thirdplace.png') }}"
                                              alt="" class="vertical-align">
                                         <img class="most-liked-user-avatar vertical-align"
-                                             src="{{ user.avatar or url_for('avatar', text=user.username) }}" alt="">
+                                             src="{{ url_for('avatar', text=user.username) }}" alt="">
 
                                     <span class="badge">共获{{ user.total_liked_num }}赞</span>
                                         <span class="rank-list-username">{{ user.username }}</span>
