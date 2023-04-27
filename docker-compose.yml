@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
     volumes:
-      - /var/www/app:/var/www/flask
+      - /var/www/codinglife-forum:/var/www/flask
     links:
       - db:mysql
     restart: always
@@ -38,18 +38,18 @@ services:
     # prlinks:
     # pr  - web
     # prrestart: always
-  blog:
-    image: 'ghost:latest'
-    container_name: 'blog'
-    environment:
-      - url=http://blog.hugaojian.com
-    volumes:
-      - /var/lib/data/ghost/blog:/var/lib/ghost/content
-    ports:
-      - '2368:2368'
-  wp:
-    image: 'wordpress:latest'
-    restart: always
-    container_name: 'wordpress'
-    ports:
-      - '8088:80'
+    #  blog:
+    #    image: 'ghost:latest'
+    #    container_name: 'blog'
+    #    environment:
+    #      - url=http://blog.hugaojian.com
+    #    volumes:
+    #      - /var/lib/data/ghost/blog:/var/lib/ghost/content
+    #    ports:
+    #      - '2368:2368'
+    #  wp:
+    #    image: 'wordpress:latest'
+    #    restart: always
+    #    container_name: 'wordpress'
+    #    ports:
+    #      - '8088:80'
